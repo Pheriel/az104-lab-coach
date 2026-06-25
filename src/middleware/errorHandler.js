@@ -26,7 +26,7 @@ function errorHandler(error, req, res, next) {
 function getDatabaseMessage(error) {
   if (!error) return null;
   if (error.code === '28P01') {
-    return 'PostgreSQL authentication failed. Check DATABASE_URL in .env.';
+    return 'PostgreSQL authentication failed. Check DB_USER and DB_PASSWORD in .env.';
   }
   if (error.code === '3D000') {
     return 'PostgreSQL database does not exist. Create it, then run npm run db:reset.';
@@ -35,7 +35,7 @@ function getDatabaseMessage(error) {
     return 'PostgreSQL schema is missing. Run npm run db:reset.';
   }
   if (error.code === 'ECONNREFUSED') {
-    return 'PostgreSQL is not reachable. Start PostgreSQL and check DATABASE_URL in .env.';
+    return 'PostgreSQL is not reachable. Start PostgreSQL and check DB_HOST and DB_PORT in .env.';
   }
   return null;
 }

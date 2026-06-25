@@ -58,7 +58,11 @@ Exemple local:
 PORT=3000
 HOST=0.0.0.0
 NODE_ENV=development
-DATABASE_URL=postgres://postgres:postgres@localhost:5432/az104_lab_coach
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=az104_lab_coach
+DB_USER=postgres
+DB_PASSWORD=change_me
 ```
 
 Ne commit jamais `.env`. Seul `.env.example` doit rester dans Git.
@@ -111,7 +115,25 @@ En production derriere Nginx, utilise de preference:
 PORT=3000
 HOST=127.0.0.1
 NODE_ENV=production
-DATABASE_URL=postgres://postgres:postgres@localhost:5432/az104_lab_coach
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=az104_lab_coach
+DB_USER=postgres
+DB_PASSWORD=change_me
+```
+
+Au demarrage, l'application verifie que toutes les variables `DB_*` existent, puis teste la connexion avec `SELECT NOW();`.
+
+Messages attendus:
+
+```text
+[DB] PostgreSQL connected successfully.
+```
+
+En cas de variable absente:
+
+```text
+[DB] Missing environment variable: DB_PASSWORD
 ```
 
 ## Nginx reverse proxy
