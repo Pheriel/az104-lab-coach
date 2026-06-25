@@ -214,6 +214,7 @@ az104-lab-coach/
 ## API principale
 
 - `GET /health`
+- `GET /api/health`
 - `GET /api/dashboard`
 - `GET /api/modules`
 - `GET /api/labs?module_id=...&status=...&difficulty=...`

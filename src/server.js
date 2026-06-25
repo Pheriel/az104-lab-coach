@@ -11,6 +11,7 @@ const app = express();
 const publicDir = path.join(__dirname, '..', 'public');
 const port = Number(process.env.PORT || 3000);
 const host = process.env.HOST || '0.0.0.0';
+let db;
 
 app.use(helmet({
   contentSecurityPolicy: false,
@@ -30,13 +31,35 @@ app.get('/health', (req, res) => {
   res.json({ ok: true, app: 'az104-lab-coach' });
 });
 
+app.get('/api/health', async (req, res) => {
+  try {
+    await db.query('SELECT NOW();');
+    res.json({
+      status: 'ok',
+      database: 'connected',
+      node: process.version,
+      environment: process.env.NODE_ENV || 'development',
+    });
+  } catch (error) {
+    res.status(503).json({
+      status: 'error',
+      database: 'disconnected',
+      message: error.message,
+    });
+  }
+});
+
 async function start() {
-  let db;
   try {
     db = require('./db');
-    await db.testConnection();
   } catch (error) {
     process.exit(1);
+  }
+
+  try {
+    await db.testConnection();
+  } catch (error) {
+    console.error('[DB] Server will start, but database-backed routes may fail until PostgreSQL is available.');
   }
 
   app.use('/api/dashboard', require('./routes/dashboard'));
