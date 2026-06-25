@@ -1,0 +1,36 @@
+{
+  "name": "az104-lab-coach",
+  "version": "1.0.0",
+  "description": "Application web locale pour etudier AZ-104 avec labs, quiz, notes et suivi PostgreSQL.",
+  "main": "src/server.js",
+  "scripts": {
+    "dev": "nodemon src/server.js",
+    "start": "node src/server.js",
+    "pm2:start": "pm2 start ecosystem.config.cjs",
+    "pm2:restart": "pm2 restart az104-lab-coach",
+    "pm2:logs": "pm2 logs az104-lab-coach",
+    "db:schema": "psql \"$DATABASE_URL\" -f db/schema.sql",
+    "db:seed": "psql \"$DATABASE_URL\" -f db/seed.sql",
+    "db:reset": "npm run db:schema && npm run db:seed"
+  },
+  "keywords": [
+    "az-104",
+    "azure",
+    "labs",
+    "postgresql",
+    "express"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "helmet": "^8.0.0",
+    "morgan": "^1.10.0",
+    "pg": "^8.13.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  }
+}
